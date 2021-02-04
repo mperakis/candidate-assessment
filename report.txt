@@ -1,0 +1,51 @@
+Brief Description
+
+Basic tools used:
+
+Flask-RESTful==0.3.8
+redis==3.5.3
+tweepy==3.10.0
+
+
+Database:
+sqlite
+
+Request:
+
+/twitterwords GET
+
+url parameters:
+hashtag = String (mandatory)
+wordcount = Integer (optional, by ommiting it defaults to all) 
+format = CSV|JSON (optional, ommiting it default to JSON)
+
+response:
+
+format: CSV|JSON
+
+fields:
+
+word_cloud: String
+topic: String(hashtag)
+first_tweet_at: TimeDate string (UTC)
+last_tweet_at: TimeDate string (UTC)
+
+The process is consisted by the following steps:
+
+1. User authenticates (partially implemented)
+
+2. User makes a request to the api by providing the needed parameters
+
+3. Related api resource checks if requested data is cached in redis
+	- if yes, fetches it
+	- if not, fetches it by requesting twitter api, cached it in redis with 24h expiration time
+
+4. Response is constructed by using requested formatter and served to the user
+
+
+NOTE: 
+
+The basic application structure is there, however it misses several parts since the time was limited.
+Additionally no unit tests are provided.
+Tried to add comments to the code in order to make it conceivable.
+Several parts need a lot of optimization as well as refactoring in order to not violate at least the S from SOLID principles
